@@ -14,12 +14,12 @@ BEGIN
 
     -- Check stock in the store we want to transfer from
     DECLARE @stock_from INT
-    SELECT @stock_from = stock FROM inventory WHERE isbn13 LIKE @isbn13 AND store_id = @from_store_id
+    SELECT @stock_from = stock FROM inventory WHERE isbn13 = @isbn13 AND store_id = @from_store_id
     IF @stock_from < @quantity OR @stock_from IS NULL RETURN
 
     -- Check stock in the store we want to transfer to
     DECLARE @stock_to INT
-    SELECT @stock_to = stock FROM inventory WHERE isbn13 LIKE @isbn13 AND store_id = @to_store_id
+    SELECT @stock_to = stock FROM inventory WHERE isbn13 = @isbn13 AND store_id = @to_store_id
 
     BEGIN TRY
         BEGIN TRANSACTION

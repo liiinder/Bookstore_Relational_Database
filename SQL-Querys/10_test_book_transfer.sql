@@ -30,4 +30,4 @@ SELECT store_id AS 'Stock after 2 fail-tests', stock, isbn13 FROM inventory WHER
 
 -- Manually reset data to MOCK state as these tests will leave store_id 3 to have a record of the book with the stock 0.
 
-DELETE FROM inventory WHERE isbn13 LIKE @isbn_test AND store_id = 3
+DELETE FROM inventory WHERE isbn13 = @isbn_test AND store_id = 3
