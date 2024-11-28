@@ -8,16 +8,12 @@ This project is made as the *[first assignment](/ASSIGNMENT.md)* in the course "
 
 ## Extra proud of
 
-The database contains books that is stored by their unique *[ISBN 13](https://isbn-information.com/the-13-digit-isbn.html)* number. Which is verified by checking it's prefix, length, faulty letters and calculating the check digit. Then on INSERTs a trigger is used to force the format to only use the 13 digits with no hyphens. This is to make it impossible to add the same book with different formating. Otherwise it would still be possible to add *[1470 copies](https://chatgpt.com/share/6746f868-c0e0-8013-b9be-2338e77763c1)* of the same book like this example.
+The database contains books using their unique *[ISBN-13](https://isbn-information.com/the-13-digit-isbn.html)* as a primary key. It is validated by a check constraint that relies on a function to verify the ISBN's validity by checking the prefix, length, characters and the computed check digit.
+When a new ISBN is inserted, a trigger is used to standardize the input. This trigger calls the validation function, which checks the constrains but also removes any hyphens and returns the 13 numeric digits. This approach prevents duplicate entries of the same book to be stored. Otherwise it would still be possible to add *[1470 copies](https://chatgpt.com/share/6746f868-c0e0-8013-b9be-2338e77763c1)* of the same book, just by changing where the hyphens are placed. For example the following eight examples would all be duplicates.
 
-| isbn13     | title |
-| ----------- | ----------- |
-| '9780747532743' | Harry Potter and the Philosopher's Stone |
-| '978-0-7475-3274-3' | Harry Potter and the Philosopher's Stone |
-| '9780-7475-3274-3' | Harry Potter and the Philosopher's Stone |
-| '978-07475-3274-3' | Harry Potter and the Philosopher's Stone |
-
-Instead now all are being formated to the first entry and the duplicates won't be allowed to be added.
+`9780747532743`, `978-0-7475-3274-3`, `978-0747532743`, `--9780747532743--`,
+<br/>
+`978----0747532743`, `978--0747532--743`, `-9780747532743`, `978074753274-3`
 
 
 
@@ -45,8 +41,15 @@ There are two views in this database, 'titles_by_author' which is for Godkänt (
 Most of the project has been using the naming convention from this *[sqlshack post](https://www.sqlshack.com/learn-sql-naming-conventions/)*, except
 the table "orders" as that is named in plural to not clash with the SQL keyword ORDER and no prefixes on the views and functions after another post/page didn't recommend those. In short it's Snake case with lower case letters separated by underscores and uppercase for all the SQL keywords.
 
+I like to keep it uniform, but I'm not fixed to any specific standards. So if someone gives me another naming convention that seems better and/or working in another project where other people are doing it differently there would be no problems for me to adapt and change how I write or approach how things "should" be done. Just wanted something to go after for this project and this is what I went with this time.
+
 
 ## Thoughts and future improvements
 I'm proud of the solution and how it all came together, it's always hard to simulate/mock data for something that hasn't a real use without any GUI / APP / API interaction. But I bet we're going to use this database in future assignments where I can keep building/upgrading on it to make it even better and to make a bit more sense.
 
 One thing that bothers me a bit is the DELETE's, I want to implement soft-deletes instead to make it more 'real'. And with that swap out/experiment more with the 'ON DELETE' options for the foreign keys. It's just a bit too 'weird' to experiment with how a real user would use it when you're on an admin account sending queries to a database. So maybe also test adding a user with less/restricted permissions and add views and other ways they can interact with the database to not wreck it.
+
+---
+
+### Thank you for reading!
+Best regards, Kristoffer Linder
