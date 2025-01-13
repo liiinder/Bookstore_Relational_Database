@@ -1,0 +1,137 @@
+﻿<UserControl x:Class="WPF_GUI.Dialogs.AddAuthorDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WPF_GUI.Dialogs"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid Margin="3">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Förnamn" />
+        <TextBox Grid.Column="1"
+                 Text="{Binding SelectedAuthor.Firstname}" />
+
+        <Label Grid.Row="1"
+               Content="Efternamn" />
+        <TextBox Grid.Row="1"
+                 Grid.Column="1"
+                 Text="{Binding SelectedAuthor.Lastname}"
+                 Margin="3"/>
+
+        <Label Grid.Row="2"
+               Content="Födelsedag" />
+        <DatePicker SelectedDateFormat="Long"
+                    SelectedDate="{
+                        Binding SelectedAuthor.Birthdate,
+                        TargetNullValue={x:Static System:DateTime.Now}}"
+                    FirstDayOfWeek="Monday"
+                    Grid.Row="2" 
+                    Grid.Column="1" />
+
+        <Label Grid.Row="4"
+               Content="Dödsdag" />
+        <Label Grid.Row="4"
+               Grid.Column="1"
+               Content="{Binding Birthdate}" />
+
+        <!--<DatePicker SelectedDateFormat="Long"
+                    SelectedDate="{
+                        Binding SelectedAuthor.Birthdate,
+                        TargetNullValue={x:Static System:DateTime.Now}}"
+                    FirstDayOfWeek="Monday"
+                    Grid.Row="4" 
+                    Grid.Column="1" />-->
+
+
+        <Button Grid.Row="5"
+                Content="Lägg till Författare" 
+                Margin="3"
+                Command="{Binding AddBookToAuthorCommand}"/>
+        <ComboBox Grid.Row="5"
+                  Grid.Column="1"
+                  Margin="3"
+                  ItemsSource="{Binding Books}"
+                  SelectedItem="{Binding SelectedBookToAdd}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Run Text="{Binding Isbn13}" />
+                        <Run Text="-" />
+                        <Run Text="{Binding Title}" />
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <DataGrid Grid.Row="6"
+                  Grid.ColumnSpan="2"
+                  ItemsSource="{Binding AuthorBooks}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  CanUserResizeRows="False"
+                  CanUserResizeColumns="False"
+                  CanUserReorderColumns="False"
+                  HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ISBN13"
+                                    Binding="{Binding Isbn13}" />
+                <DataGridTextColumn Width="*"
+                                    Header="Titel"
+                                    Binding="{Binding Title}" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Margin="0"
+                                    Content="Tabort"
+                                    Command="{Binding DataContext.RemoveBookFromAuthorCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="7"
+              Grid.ColumnSpan="2">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Height="20"
+                    Width="100"
+                    Click="CancelDialog"
+                    Content="Avbryt"/>
+
+            <Button Grid.Column="1"
+                    Height="20"
+                    Width="100"
+                    Click="CloseDialog"
+                    Content="Godkänd" />
+        </Grid>
+    </Grid>
+
+</UserControl>

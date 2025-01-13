@@ -1,0 +1,109 @@
+﻿<UserControl 
+    x:Class="WPF_GUI.Dialogs.AddInventoryDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:WPF_GUI.Dialogs"
+    xmlns:converter="clr-namespace:WPF_GUI.Converters">
+
+    <UserControl.Resources>
+        <converter:BoolToOrderStringConverter x:Key="BoolToOrderString"/>
+        <converter:BoolToOrderButtonStringConverter x:Key="BoolToOrderButtonString"/>
+    </UserControl.Resources>
+    
+    <Border Padding="9">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Panel.ZIndex="1">
+                <RadioButton Content="Beställ" 
+                             IsChecked="{Binding OrderBooks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <RadioButton Content="Ta bort" />
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                </StackPanel.LayoutTransform>
+            </StackPanel>
+
+            <TextBlock>
+                <Run FontSize="24"
+                     Text="{Binding SelectedStore.Name}"/>
+                <LineBreak/>
+                <Run Text="{Binding SelectedStore.City}"/>
+                <Run Text=" - "/>
+                <Run Text="{Binding SelectedStore.PostalCode}"/>
+                <LineBreak/>
+                <Run Text="{Binding SelectedStore.Address}"/>
+            </TextBlock>
+
+            <ComboBox Grid.Row="1"
+                      Margin="0 9 0 0"
+                      ItemsSource="{Binding Books}"
+                      SelectedValue="{Binding SelectedBook}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <Run Text="{Binding Isbn13}"/>
+                            <Run Text=" - "/>
+                            <Run Text="{Binding Title}"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock Grid.Row="2"
+                       Margin="0 9 0 0">
+                <Run Text="Nuvarande lagersaldo:"/>
+                <Run Text="{Binding CurrentStock}"/>
+                <Run Text="st"/>
+            </TextBlock>
+           
+            <Grid Grid.Row="3"
+                  Margin="0 9">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding OrderBooks, Converter={StaticResource BoolToOrderString}}"/>
+                <TextBox Grid.Column="1"
+                         Text="{Binding AddAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PreviewTextInput="ValidateInput"
+                         HorizontalContentAlignment="Right"/>
+            </Grid>
+            
+            <Slider Grid.Row="4"
+                    TickFrequency="5"
+                    Minimum="0"
+                    Maximum="100"
+                    TickPlacement="BottomRight"
+                    IsSnapToTickEnabled="False"
+                    Value="{Binding AddAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Foreground="#333"/>
+
+            <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Margin="0 9 5 0"
+                        Click="CancelDialog"
+                        Content="Avbryt"/>
+
+                <Button Grid.Column="1"
+                        Margin="5 9 0 0"
+                        Click="CloseDialog"
+                        Content="{Binding OrderBooks, Converter={StaticResource BoolToOrderButtonString}}"/>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,30 @@
+﻿<Window x:Class="WPF_GUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_GUI" 
+        xmlns:view="clr-namespace:WPF_GUI.Views"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        mc:Ignorable="d"
+        xmlns:UI="clr-namespace:WPF_GUI.ViewModels"
+        WindowStartupLocation="CenterScreen"
+        Language="sv-SE"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Grid Background="#99DFF8F7">
+
+        <TabControl Margin="5">
+            <TabItem Header="Lagersaldo">
+                <view:StoreView />
+            </TabItem>
+            <TabItem Header="Författare">
+                <view:AuthorView />
+            </TabItem>
+            <TabItem Header="Böcker">
+                <view:BookView />
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

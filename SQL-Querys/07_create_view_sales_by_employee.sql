@@ -6,9 +6,9 @@ SELECT
     o.store_id AS 'Butiksnummer',
     e.id AS 'Anställningsnummer',
     MIN(e.firstname) + ' ' + MIN(e.lastname) AS 'Anställd',
-    SUM(od.price) AS 'Total säljsumma',
+    SUM(od.price * od.quantity) AS 'Total säljsumma',
     COUNT(DISTINCT o.id) AS 'Unika säljtillfällen',
-    COUNT(*) AS 'Antal sålda böcker'
+    SUM(od.quantity) AS 'Antal sålda böcker'
 FROM orders o
     JOIN order_details od
     ON od.order_id = o.id
