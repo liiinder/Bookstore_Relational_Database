@@ -1,0 +1,6 @@
+.vs/
+
+# ignore all bin / obj folders
+bin
+obj
+/WPF-GUI/DbConfig.cs
