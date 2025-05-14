@@ -85,14 +85,15 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn
-                    Width="*"
+                    Width="3*"
                     Header="Förnamn"
                     Binding="{Binding Firstname}" />
                 <DataGridTextColumn 
-                    Width="*"
+                    Width="3*"
                     Header="Efternamn"
                     Binding="{Binding Lastname}" />
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn
+                    Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Margin="0"
