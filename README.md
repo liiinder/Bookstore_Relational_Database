@@ -15,14 +15,24 @@ This repository consists of my SQL-queries, an ER-diagram and also the backup fi
 
 ## Extra proud of
 
-The database contains books using their unique *[ISBN-13](https://isbn-information.com/the-13-digit-isbn.html)* as a primary key. It is validated by a check constraint that relies on a function to verify the ISBN's validity by checking the prefix, length, characters and the computed check digit.
-When a new ISBN is inserted, a trigger is used to standardize the input. This trigger calls the validation function, which checks the constrains but also removes any hyphens and returns the 13 numeric digits. This approach prevents duplicate entries of the same book to be stored. Otherwise it would still be possible to add *[1470 copies](https://chatgpt.com/share/6746f868-c0e0-8013-b9be-2338e77763c1)* of the same book, just by changing where the hyphens are placed. For example the following eight examples would all be duplicates.
+The database contains books using their unique *[ISBN-13](https://isbn-information.com/the-13-digit-isbn.html)* as a primary key.
+It is validated by a check constraint that relies on a function to verify the ISBN's validity by checking the prefix, length, characters and the computed check digit.
+When a new ISBN is inserted, a trigger is used to standardize the input.
+This trigger calls the validation function, which checks the constrains but also removes any hyphens and returns the 13 numeric digits.
+This approach prevents duplicate entries of the same book to be stored. 
+Otherwise it would still be possible to add *[1470 copies](https://chatgpt.com/share/6746f868-c0e0-8013-b9be-2338e77763c1)* of the same book, 
+just by changing where the hyphens are placed. For example the following eight examples would all be duplicates.
 
 `9780747532743`, `978-0-7475-3274-3`, `978-0747532743`, `--9780747532743--`,
 <br/>
 `978----0747532743`, `978--0747532--743`, `-9780747532743`, `978074753274-3`
 
-</details>
+I also added a C# version of this in my WPF app to change the background of the input field.
+
+![Validation](Presentation/Validation.jpg)
+
+[Link to the SQL function](https://github.com/liiinder/Bookstore_Relational_Database/blob/main/SQL-Querys/01_function_verify_isbn13.sql)</br>
+[Link to the C# version](https://github.com/liiinder/Bookstore_Relational_Database/blob/main/WPF-GUI/Converters/ISBNvalidatorConverter.cs)
 
 ---
 
@@ -85,11 +95,18 @@ A simple combobox to swap between the stores.
 
 ## Thoughts and future improvements
 
-For the first assignment I was proud of the solution and how it all came together, it's always hard to simulate/mock data for something that hasn't a real use without any GUI / APP / API interaction. But I bet we're going to use this database in future assignments where I can keep building/upgrading on it to make it even better and to make a bit more sense.
+For the first assignment I was proud of the solution and how it all came together, 
+it's always hard to simulate/mock data for something that hasn't a real use without any GUI / APP / API interaction. 
+But I bet we're going to use this database in future assignments where I can keep building/upgrading on it to make it even better and to make a bit more sense.
 
-One thing that bothers me a bit is the DELETE's, I want to implement soft-deletes instead to make it more 'real'. And with that swap out/experiment more with the 'ON DELETE' options for the foreign keys. It's just a bit too 'weird' to experiment with how a real user would use it when you're on an admin account sending queries to a database. So maybe also test adding a user with less/restricted permissions and add views and other ways they can interact with the database to not wreck it.
+One thing that bothers me a bit is the DELETE's, I want to implement soft-deletes instead to make it more 'real'. 
+And with that swap out/experiment more with the 'ON DELETE' options for the foreign keys. 
+It's just a bit too 'weird' to experiment with how a real user would use it when you're on an admin account sending queries to a database. 
+So maybe also test adding a user with less/restricted permissions and add views and other ways they can interact with the database to not wreck it.
 
-For the second assignment, I feel like there wasn't enough time to make it really work as I intended. I passed but my app have big problems with handling the many to many relationships and I feel like we didn't cover that well enough with the database first approach. And the WPF app will just get stuck on adding authors to the books and books to an author.
+For the second assignment, I feel like there wasn't enough time to make it really work as I intended. 
+I passed but my app have big problems with handling the many to many relationships and I feel like we didn't cover that well enough with the database first approach. 
+And the WPF app will just get stuck on adding authors to the books and books to an author but the first tab with stores works as intended.
 
 ---
 
